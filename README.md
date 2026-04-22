@@ -53,7 +53,8 @@ Zero manual deployment needed.
 ---
 
 ## 📁 Project Structure
----
+
+```
 pacificweather-hub/
 ├── .github/workflows/deploy.yml  # CI/CD pipeline
 ├── app/
@@ -64,6 +65,9 @@ pacificweather-hub/
 ├── Dockerfile                    # Container definition
 ├── docker-compose.yml            # Multi-container setup
 └── requirements.txt              # Python dependencies
+```
+
+---
 
 ## 🌏 Cities Tracked
 
