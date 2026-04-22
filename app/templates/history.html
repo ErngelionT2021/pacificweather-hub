@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ city }} History — PacificWeather Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep: #061829;
+            --reef: #00b4d8;
+            --sky: #90e0ef;
+            --text: #e8f4f8;
+            --dim: #7a9bb5;
+            --card: rgba(255,255,255,0.04);
+            --border: rgba(0,180,216,0.2);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--deep);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            min-height: 100vh;
+        }
+        header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .logo span { color: var(--reef); }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--reef);
+            text-decoration: none;
+        }
+        .back:hover { text-decoration: underline; }
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: var(--dim);
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--reef);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: var(--dim);
+        }
+        td:first-child { color: var(--text); }
+        tr:hover td { background: rgba(0,180,216,0.04); }
+        .empty {
+            text-align: center;
+            padding: 3rem;
+            color: var(--dim);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Pacific<span>Weather</span></div>
+    </header>
+    <main>
+        <a href="/" class="back">← Back to Dashboard</a>
+        <h1>{{ city }}</h1>
+        <div class="subtitle">Last 24 weather readings</div>
+
+        {% if readings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Temp (°C)</th>
+                    <th>Humidity</th>
+                    <th>Description</th>
+                    <th>Wind (m/s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in readings %}
+                <tr>
+                    <td>{{ r[4].strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ r[0] }}</td>
+                    <td>{{ r[1] }}%</td>
+                    <td>{{ r[2] }}</td>
+                    <td>{{ r[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty">No history yet — visit the dashboard first to record some readings!</div>
+        {% endif %}
+    </main>
+</body>
+</html>
