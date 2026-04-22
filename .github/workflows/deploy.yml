@@ -1,52 +1,26 @@
-# name: Deploy to AWS EC2
+name: Deploy to AWS EC2
 
-# on:
-#   push:
-#     branches: [main]
+on:
+  push:
+    branches: [main]
 
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
     
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-#       - name: Deploy to EC2 via SSH
-#         uses: appleboy/ssh-action@v1.0.0
-#         with:
-#           host: ${{ secrets.EC2_HOST }}
-#           username: ubuntu
-#           key: ${{ secrets.EC2_SSH_KEY }}
-#           script: |
-#             cd /home/ubuntu/pacificweather-hub
-#             git pull origin main
-#             docker-compose down
-#             docker-compose up -d --build
-#             echo "✅ Deployed successfully"
-
-
-services:
-  web:
-    build: .
-    ports:
-      - "80:5000"
-    env_file:
-      - .env
-    depends_on:
-      - db
-    restart: always
-
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: pacificweather
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/pacificweather-hub
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
+            echo "✅ Deployed successfully"
