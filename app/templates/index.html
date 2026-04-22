@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PacificWeather Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ocean: #0a2540;
+            --deep: #061829;
+            --reef: #00b4d8;
+            --coral: #ff6b6b;
+            --leaf: #52b788;
+            --sky: #90e0ef;
+            --text: #e8f4f8;
+            --dim: #7a9bb5;
+            --card: rgba(255,255,255,0.04);
+            --border: rgba(0,180,216,0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--deep);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, 
+                rgba(0,180,216,0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .logo span { color: var(--reef); }
+
+        .status {
+            font-size: 0.7rem;
+            color: var(--leaf);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .status::before {
+            content: '● ';
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--dim);
+            margin-bottom: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--reef);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--reef), var(--leaf));
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        .city-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .country {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--reef);
+            margin-bottom: 1.5rem;
+        }
+
+        .temp {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .temp span {
+            font-size: 1.2rem;
+            color: var(--dim);
+            font-weight: 400;
+        }
+
+        .description {
+            font-size: 0.8rem;
+            color: var(--sky);
+            text-transform: capitalize;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dim);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 0.9rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .history-link {
+            display: inline-block;
+            margin-top: 1.25rem;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--reef);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.9rem;
+            border-radius: 99px;
+            transition: background 0.2s;
+        }
+
+        .history-link:hover {
+            background: rgba(0,180,216,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.7rem;
+            color: var(--dim);
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        footer strong { color: var(--reef); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Pacific<span>Weather</span></div>
+        <div class="status">Live Data</div>
+    </header>
+
+    <main>
+        <div class="page-title">🌊 Real-time weather · Pacific Island Nations</div>
+        <div class="grid">
+            {% for city in weather %}
+            <div class="card">
+                <div class="city-name">{{ city.city }}</div>
+                <div class="country">{{ city.country }}</div>
+                <div class="temp">{{ city.temp | round(1) }}<span>°C</span></div>
+                <div class="description">{{ city.description }}</div>
+                <div class="stats">
+                    <div>
+                        <div class="stat-label">Humidity</div>
+                        <div class="stat-value">{{ city.humidity }}%</div>
+                    </div>
+                    <div>
+                        <div class="stat-label">Wind</div>
+                        <div class="stat-value">{{ city.wind_speed }} m/s</div>
+                    </div>
+                </div>
+                <a href="/history/{{ city.city }}" class="history-link">View History →</a>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        Built by a <strong>Solomon Islands</strong> developer · Deployed on AWS EC2 · 
+        <strong>PacificWeather Hub</strong>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Never push secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# VS Code
+.vscode/
+
+# Docker
+*.log
